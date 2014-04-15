@@ -40,7 +40,11 @@ logstash::configfile { 'output_es':
   order   => 30,
 }
 
-class { 'kibana3': }
+class { 'kibana3': } ->
+file { '/opt/kibana3/src/app/dashboards/default.json':
+  ensure => link,
+  target => '/opt/kibana3/src/app/dashboards/logstash.json',
+}
 
 service { 'iptables':
   ensure => stopped,
